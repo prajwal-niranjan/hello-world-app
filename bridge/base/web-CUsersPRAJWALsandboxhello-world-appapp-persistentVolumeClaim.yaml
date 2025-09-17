@@ -1,0 +1,18 @@
+#! web-C:\Users\PRAJWAL\sandbox\hello-world-app\app-persistentVolumeClaim.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: web-c--users-prajwal-sandbox-hello-world-app-app
+    namespace: hello-world-app
+    labels:
+        com.docker.compose.service: web
+        com.docker.compose.volume: C:\Users\PRAJWAL\sandbox\hello-world-app\app
+spec:
+    accessModes:
+        # TODO would need to check which services use this volume
+        - ReadWriteOnce
+    volumeMode: Filesystem
+    resources:
+        requests:
+            storage: 100Mi

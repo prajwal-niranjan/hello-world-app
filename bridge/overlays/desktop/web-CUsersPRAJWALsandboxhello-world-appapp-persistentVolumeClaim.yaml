@@ -1,0 +1,9 @@
+#! web-C:\Users\PRAJWAL\sandbox\hello-world-app\app-persistentVolumeClaim.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: web-c--users-prajwal-sandbox-hello-world-app-app
+    namespace: hello-world-app
+spec:
+    storageClassName: "hostpath" # see docker/desktop-storage-provisioner
