@@ -1,38 +1,31 @@
-name: CI - Build and Test Docker App
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository code
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      # Set up Docker Buildx (for modern multi-platform builds)
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      # Build the Docker image
-      - name: Build Docker image
-        run: |
-          docker build -t hello-world-app .
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r app/requirements.txt
 
-      # Run the container and test
-      - name: Run container
-        run: |
-          docker run -d -p 8000:8000 --name hello-world-test hello-world-app
-          sleep 5 # wait for app to start
-          curl --fail http://localhost:8000 | grep "Hello, World!"
-      
-      # Clean up container after test
-      - name: Stop and remove container
-        run: |
-          docker stop hello-world-test
-          docker rm hello-world-test
+    - name: Run tests
+      run: pytest -v
+
+    - name: Build Docker image
+      run: docker build -t hello-world-app .

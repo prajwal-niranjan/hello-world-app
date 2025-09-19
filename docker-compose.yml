@@ -1,13 +1,14 @@
-version: "3.9"
+
 
 services:
-  web:
+  app:
     build: .
-    container_name: hello_world_app
+    image: hello-world-app
+    env_file:
+      - ${ENV_FILE:-.env.dev}  # Fallback to .env.dev if ENV_FILE is not set
     ports:
-      - "8000:8000"
-    volumes:
-      - ./app:/app
+      - "${PORT:-8000}:8000"
     environment:
-      - PYTHONUNBUFFERED=1
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      - APP_ENV=${APP_ENV:-dev}
+    volumes:
+      - ./app:/app  # Mount local code (dev-friendly)
